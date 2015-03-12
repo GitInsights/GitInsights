@@ -21,3 +21,6 @@ Type the github username you are interested in, boom info at a glance.
 
 ## Closing and Call to Action ##
 GitInsights Today!
+
+## Licence
+MIT
