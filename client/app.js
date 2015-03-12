@@ -1,6 +1,7 @@
 angular.module('gitInsight', [
   'gitInsight.home',
-  'ngRoute'
+  'ngRoute',
+  'gitInsight.apiservice',
 ])
 .config(function($routeProvider, $httpProvider){
   $routeProvider
