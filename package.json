@@ -1,0 +1,30 @@
+{
+  "name": "GitInsights",
+  "version": "0.0.0",
+  "description": "Github User Insights",
+  "main": "index.js",
+  "dependencies": {
+    "body-parser": "^1.12.0",
+    "express": "^4.12.2",
+    "morgan": "^1.5.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GitInsights/GitInsights"
+  },
+  "keywords": [
+    "Github",
+    "Insights"
+  ],
+  "author": "John Zhang, Seunghoon Ko, Eli Xian",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GitInsights/GitInsights/issues"
+  },
+  "homepage": "https://github.com/GitInsights/GitInsights"
+}
