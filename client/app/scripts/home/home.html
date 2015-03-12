@@ -1,9 +1,9 @@
-<div class="site-wrapper">
+<!-- <div class="site-wrapper"> -->
   <div class="site-wrapper-inner">
     <div class="cover-container">
       <div class="masthead clearfix">
         <div class="inner">
-          <h3 class="masthead-brand">Cover</h3>
+          <h3 class="masthead-brand">Git Insight</h3>
           <nav>
             <ul class="nav masthead-nav">
               <li class="active"><a href="#">Home</a></li>
@@ -15,11 +15,20 @@
       </div>
 
       <div class="inner cover" id='home'>
-        <h1 class="cover-heading">Cover your page.</h1>
-        <p class="lead">Cover is a one-page template for building simple and beautiful home pages. Download, edit the text, and add your own fullscreen background photo to make it your own.</p>
+        <h1 class="cover-heading">Git Insight</h1>
+        <p class="lead">We can help recruiters and employers analyze someone's github profile</p>
         <p class="lead">
-          <a href="#" class="btn btn-lg btn-default">Learn more</a>
-        </p>
+          <!-- <a href="#" class="btn btn-lg btn-default">Learn more</a> -->
+          <md-content md-theme="docs-dark" class="md-padding" layout="row" layout-sm="column" style="font-size:1.2em">
+            <md-input-container required flex>
+              <label>Github Username</label>
+              <input required name="username" ng-model="user.username" placeholder="">
+              <div ng-messages="lead.username.$error">
+                <div ng-message="required">This is required.</div>
+              </div>
+            </md-input-container>
+          </md-content>
+      </p>
       </div>
 
       <div class="mastfoot">
@@ -29,4 +38,4 @@
       </div>
     </div>
   </div>
-</div>
+<!-- </div> -->
