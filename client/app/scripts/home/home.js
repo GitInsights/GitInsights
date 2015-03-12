@@ -1,13 +1,17 @@
-angular.module('gitInsight.home', ['ngMaterial', 'ngMessages'])
+(function(){
+  'use strict';
 
-.controller('HomeController', function($scope, $window, $location){
-
-
-})
-.config( function($mdThemingProvider){
-    // Configure a dark theme with primary foreground yellow
+  angular.module('gitInsight.home', ['ngMaterial', 'ngMessages'])
+  .controller('HomeController', HomeController)
+  .config( function($mdThemingProvider){
     $mdThemingProvider.theme('docs-dark', 'default')
-        .primaryPalette('teal')
-        .dark();
+    .primaryPalette('light-blue')
+    .dark();
   });
-//red, pink, purple, deep-purple, indigo, blue, light-blue, cyan, teal, green, light-green, lime, yellow, amber, orange, deep-orange, brown, grey, blue-grey
+
+  HomeController.$inject = ['$scope', '$window', '$location'];
+
+  function HomeController($scope, $window, $location){
+    $scope.user = {};
+  }
+})();
