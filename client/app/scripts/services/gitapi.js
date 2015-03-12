@@ -1,12 +1,12 @@
 (function(){
 
 angular.module('gitInsight.gitapi', [])
-  .factory('GitApi', GitApi)
+  .factory('GitApi', GitApi);
 
 GitApi.$inject = ['$q', '$http'];
 function GitApi ($q, $http) {
 
-  var gitApi = 'https://api.github.com/'
+  var gitApi = 'https://api.github.com/';
   var usersRepos = {};
 
   return {
@@ -14,7 +14,7 @@ function GitApi ($q, $http) {
     getAllWeeklyData: getAllWeeklyData,
     getRepoWeeklyData: getRepoWeeklyData,
     getUserRepos: getUserRepos,
-  }
+  };
 
   //reduces data from each week
   function reduceAllWeeklyData (array) {
@@ -36,23 +36,23 @@ function GitApi ($q, $http) {
   function getAllWeeklyData (username) {
     return getUserRepos(username)
       .then(function (repos) {
-        var promises = repos.map(function (repo) {          
+        var promises = repos.map(function (repo) {
           return getRepoWeeklyData(repo);
         });
         return $q.all(promises);
-      })
+      });
   }
 
   //returns an array of additions/deletions and commits
   //made by a user for a given repo
   function getRepoWeeklyData (repo) {
-    var contributorsResource = repo.url + '/stats/contributors'
+    var contributorsResource = repo.url + '/stats/contributors';
     return $http({
       method: 'GET',
       url: contributorsResource
     }).then(function (res) {
       return res.data[0];
-    })
+    });
   }
 
 
@@ -61,7 +61,7 @@ function GitApi ($q, $http) {
     if (usersRepos[username]) {
       return $q(function (resolve, reject) {
         return resolve(usersRepos[username]);
-      })
+      });
     }
 
     //else, fetch via api
@@ -76,9 +76,9 @@ function GitApi ($q, $http) {
       var repos = res.data;
       var username = res.data[0].owner.login;
       return usersRepos[username] = repos;
-    })
+    });
   }
 
 }
 
-})()
+})();
