@@ -14,7 +14,7 @@
   function HomeController($scope, $window, $location, GitApi){
     $scope.user = {};
     $scope.getUserRepo = function(){
-      GitApi.getAllWeeklyData($scope.user.username)
+      GitApi.getUserRepos($scope.user.username)
         .then(function(data){
           console.log(data);
         });
