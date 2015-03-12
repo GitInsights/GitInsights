@@ -1,0 +1,24 @@
+{
+  "name": "GitInsights",
+  "main": "index.js",
+  "version": "0.0.0",
+  "homepage": "https://github.com/waieez/GitInsights",
+  "authors": [
+    "John Zhang",
+    "Seunghoon Ko",
+    "Eli Xian"
+  ],
+  "description": "Github User Insights",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "client/bower/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.3.14",
+    "d3": "~3.5.5"
+  }
+}
