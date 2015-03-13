@@ -3,6 +3,7 @@
 
   angular.module('gitInsight.home', ['ngMaterial', 'ngMessages', 'gitInsight.gitapi'])
   .controller('HomeController', HomeController)
+  //defines the colors
   .config( function($mdThemingProvider){
     $mdThemingProvider.theme('docs-dark', 'default')
     .primaryPalette('light-blue')
