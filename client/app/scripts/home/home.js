@@ -9,11 +9,9 @@
     .dark();
   });
 
-  HomeController.$inject = ['$scope', '$window', '$location', 'Auth'];
+  HomeController.$inject = ['$scope', '$window', '$location'];
 
-  function HomeController($scope, $window, $location, Auth){
+  function HomeController($scope, $window, $location){
     $scope.user = {};
-    $scope.login = Auth.login;
-    console.log(Auth);
   }
 })();

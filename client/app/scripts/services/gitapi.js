@@ -3,8 +3,8 @@
 angular.module('gitInsight.gitapi', [])
   .factory('GitApi', GitApi)
 
-GitApi.$inject = ['$q', '$http'];
-function GitApi ($q, $http) {
+GitApi.$inject = ['$q', '$http', 'Auth'];
+function GitApi ($q, $http, Auth) {
 
   var gitApi = 'https://api.github.com/'
   var usersRepos = {};
@@ -49,7 +49,10 @@ function GitApi ($q, $http) {
     var contributorsResource = repo.url + '/stats/contributors'
     return $http({
       method: 'GET',
-      url: contributorsResource
+      url: contributorsResource,
+      params: {
+        access_token: Auth.getToken()
+      }
     }).then(function (res) {
       return res.data[0];
     })
@@ -71,7 +74,10 @@ function GitApi ($q, $http) {
 
     return $http({
       method: 'GET',
-      url: gitApi + userReposResource
+      url: gitApi + userReposResource,
+      params: {
+        access_token: Auth.getToken()
+      }
     }).then(function (res){
       var repos = res.data;
       var username = res.data[0].owner.login;
