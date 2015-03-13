@@ -19,17 +19,19 @@ function GitApi ($q, $http, Auth) {
   };
 
   //reduces data from each week
-  function reduceAllWeeklyData (array) {
-    reduced = {};
+  function reduceAllWeeklyData (array, username) {
+    var reduced = {};
     array.forEach(function (result) {
-      result.weeks.forEach(function (data) {
-          var week = data.w;
-          for (var key in data) {
-            reduced[week] = reduced[week] || {};
-            reduced[week][key] = (reduced[week][key] || 0) + data[key];
-          delete reduced[week].w;
-        }
-      });
+      if(result!==undefined && result.author.login.toLowerCase() === username.toLowerCase()){
+        result.weeks.forEach(function (data) {
+            var week = data.w;
+            for (var key in data) {
+              reduced[week] = reduced[week] || {};
+              reduced[week][key] = (reduced[week][key] || 0) + data[key];
+            delete reduced[week].w;
+          }
+        });
+      }
     });
     return reduced;
   }

@@ -13,7 +13,7 @@ function Auth () {
     login: login,
     getToken: getToken
   }
-  
+
   function getToken () {
     return githubToken;
   }
@@ -26,7 +26,7 @@ function Auth () {
         console.log("Authenticated successfully with payload:", authData);
         githubToken = authData.github.accessToken;
       }
-    })()
+    });//()
   }
 }
 
