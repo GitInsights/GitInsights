@@ -58,5 +58,8 @@
     $scope.login = function(){
       Auth.login();
     };
+
+
   }
 })();
+

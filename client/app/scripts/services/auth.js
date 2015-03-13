@@ -1,4 +1,5 @@
 (function () {
+'use strict'
 
 angular.module('gitInsight.auth', [])
   .factory('Auth', Auth);
@@ -27,7 +28,6 @@ function Auth () {
       }
     });//()
   }
-
 }
 
 })()
