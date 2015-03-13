@@ -3,7 +3,8 @@ angular.module('gitInsight', [
   'ngRoute',
   'gitInsight.gitapi',
   'gitInsight.auth',
-  'gitInsight.userinfo'
+  'gitInsight.userinfo',
+  'gitInsight.compare',
 ])
 .config(function($routeProvider, $httpProvider){
   $routeProvider
@@ -15,6 +16,10 @@ angular.module('gitInsight', [
     .when('/ko', {
       templateUrl: 'app/scripts/home/ko.html',
       controller: 'HomeController'
+    })
+    .when('/compare', {
+      templateUrl: 'app/scripts/compare/compare.html',
+      controller: 'CompareController'
     })
     .otherwise({
       redirectTo: '/'
