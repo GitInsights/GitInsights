@@ -13,11 +13,11 @@
         </div>
       </div>
 
-      <canvas id="line" class="chart chart-line" data="graphData" labels="labels" legend="true" series="series">
+      <canvas ng-if="loaded" id="line" class="chart chart-line" data="graphData" labels="labels" legend="true" series="series">
       </canvas>
-      <user-info user="user" ng-model="user"></user-info>
+      <user-info ng-if="loaded" user="user" ng-model="user"></user-info>
       <div class="inner cover" id='home'>
-        <div ng-show="!loaded">
+        <div ng-if="!loaded">
           <h1 class="cover-heading">Git Insight</h1>
           <p class="lead">We can help recruiters and employers analyze someone's github profile</p>
           <p class="lead">
@@ -29,7 +29,7 @@
               <md-button ng-click="getAllWeeklyData()">Search</md-button>
             </md-content>
           </p>
-        <div>
+        </div>
       </div>
       <div class="mastfoot">
         <div class="inner">

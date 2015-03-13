@@ -23,7 +23,6 @@
       GitApi.getUserRepos($scope.user.username)
         .then(function(data){
           console.log(data);
-          // $scope.data = data;
           $scope.loaded = true;
         });
     };
@@ -31,25 +30,25 @@
       GitApi.getAllWeeklyData($scope.user.username)
         .then(function(data){
           $scope.data = GitApi.reduceAllWeeklyData(data, $scope.user.username);
-          for(var prop in $scope.data){
-            $scope.labels.push(toDate(prop));
-            $scope.graphData[0].push($scope.data[prop]['a']);
-            $scope.graphData[1].push($scope.data[prop]['d']);
-            $scope.graphData[2].push($scope.data[prop]['c']);
-
-            console.log(toDate(prop) + "-- a:" + $scope.data[prop]['a']);
-          }
-          // console.log(data);
-          // $scope.data = data;
+          addGraphData(GitApi.reduceAllWeeklyData(data, $scope.user.username));
           $scope.loaded = true;
         });
+    };
+
+    var addGraphData = function(data){
+      for(var prop in data){
+          $scope.labels.push(toDate(prop));
+          $scope.graphData[0].push(data[prop]['a']);
+          $scope.graphData[1].push(data[prop]['d']);
+          $scope.graphData[2].push(data[prop]['c']);
+        }
     };
 
     var toDate = function(timestamp){
       var a = new Date(timestamp*1000);
       var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
       var year = a.getFullYear();
-      var month = a.getMonth()+1;//months[a.getMonth()];
+      var month = a.getMonth()+1;
       var date = a.getDate();
       var time = date + '/' + month + '/' + year ;
       return time;
