@@ -1,14 +1,14 @@
 (function () {
 'use strict'
 
-angular.module('gitInsight.contact', [])
+angular.module('gitInsight.userinfo', [])
   .directive('userInfo', userInfo)
 
 function userInfo () {
   return {
     link: link,
     restrict: 'E',
-    templateUrl: 'app/scripts/directives/contact.html',
+    templateUrl: 'app/scripts/directives/userinfo.html',
     scope: {
       user: '='
     }

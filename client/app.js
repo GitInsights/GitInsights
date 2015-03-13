@@ -3,7 +3,7 @@ angular.module('gitInsight', [
   'ngRoute',
   'gitInsight.gitapi',
   'gitInsight.auth',
-  'gitInsight.contact'
+  'gitInsight.userinfo'
 ])
 .config(function($routeProvider, $httpProvider){
   $routeProvider
