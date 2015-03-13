@@ -2,7 +2,8 @@ angular.module('gitInsight', [
   'gitInsight.home',
   'ngRoute',
   'gitInsight.gitapi',
-  'gitInsight.auth'
+  'gitInsight.auth',
+  'gitInsight.contact'
 ])
 .config(function($routeProvider, $httpProvider){
   $routeProvider
@@ -14,5 +15,8 @@ angular.module('gitInsight', [
     .when('/ko', {
       templateUrl: 'app/scripts/home/ko.html',
       controller: 'HomeController'
-    });
+    })
+    .otherwise({
+      redirectTo: '/'
+    })
 });
