@@ -10,6 +10,7 @@ angular.module('gitInsight', [
       templateUrl: 'app/scripts/home/home.html',
       controller: 'HomeController'
     })
+    //sandbox for ko
     .when('/ko', {
       templateUrl: 'app/scripts/home/ko.html',
       controller: 'HomeController'
