@@ -21,11 +21,12 @@ function GitApi ($q, $http, Auth) {
     reduced = {};
     array.forEach(function (result) {
       result.weeks.forEach(function (data) {
-        var week = data['w'];
-        for (var key in data) {
-          reduced[week][key] = (reduced[week][key] || 0) + data[key];
+          var week = data.w;
+          for (var key in data) {
+            reduced[week] = reduced[week] || {};
+            reduced[week][key] = (reduced[week][key] || 0) + data[key];
+          delete reduced[week].w;
         }
-        delete reduced[week]['w'];
       });
     });
     return reduced;
