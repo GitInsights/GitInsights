@@ -13,19 +13,25 @@
         </div>
       </div>
 
+      <canvas id="line" class="chart chart-line" data="graphData" labels="labels" legend="true" series="series">
+      </canvas>
       <div class="inner cover" id='home'>
-        <h1 class="cover-heading">Git Insight</h1>
-        <p class="lead">We can help recruiters and employers analyze someone's github profile</p>
-        <p class="lead">
-          <md-content md-theme="docs-dark" class="md-padding" layout="row" layout-sm="column" style="font-size:1.2em">
-            <md-input-container required flex>
-              <label>Github Username</label>
-              <input required name="username" ng-model="user.username" placeholder="">
-            </md-input-container>
-            <md-button ng-click="getUserRepos()">Search</md-button>
-          </md-content>
-      </p>
+        <div ng-show="!loaded">
+          <h1 class="cover-heading">Git Insight</h1>
+          <p class="lead">We can help recruiters and employers analyze someone's github profile</p>
+          <p class="lead">
+            <md-content md-theme="docs-dark" class="md-padding" layout="row" layout-sm="column" style="font-size:1.2em">
+              <md-input-container required flex>
+                <label>Github Username</label>
+                <input required name="username" ng-model="user.username" placeholder="">
+              </md-input-container>
+              <md-button ng-click="getAllWeeklyData()">Search</md-button>
+            </md-content>
+          </p>
+        <div>
       </div>
+
+
 
       <div class="mastfoot">
         <div class="inner">
