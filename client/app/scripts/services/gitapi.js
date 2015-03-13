@@ -1,4 +1,5 @@
 (function(){
+"use strict"
 
 angular.module('gitInsight.gitapi', [])
   .factory('GitApi', GitApi);
@@ -14,6 +15,7 @@ function GitApi ($q, $http, Auth) {
     getAllWeeklyData: getAllWeeklyData,
     getRepoWeeklyData: getRepoWeeklyData,
     getUserRepos: getUserRepos,
+    getUserContact: getUserContact
   };
 
   //reduces data from each week
@@ -83,6 +85,18 @@ function GitApi ($q, $http, Auth) {
       var repos = res.data;
       var username = res.data[0].owner.login;
       return usersRepos[username] = repos;
+    });
+  }
+
+  function getUserContact (username) {
+    return $http({
+      method: 'GET',
+      url: gitApi + "users/" + username,
+      params: {
+        access_token: Auth.getToken()
+      }
+    }).then(function (res) {
+      return res.data;
     });
   }
 
