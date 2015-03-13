@@ -1,4 +1,5 @@
 (function () {
+'use strict'
 
 angular.module('gitInsight.contact', [])
   .directive('userInfo', userInfo)
