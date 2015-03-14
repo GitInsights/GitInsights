@@ -24,13 +24,24 @@
             <md-content md-theme="docs-dark" class="md-padding" layout="row" layout-sm="column" style="font-size:1.2em">
               <md-input-container required flex>
                 <label>Github Username</label>
-                <input required name="username" ng-model="user.username" placeholder="">
+                <input required name="username" ng-model="currentUser.username" placeholder="">
               </md-input-container>
               <md-button ng-click="getAllWeeklyData()">Search</md-button>
             </md-content>
           </p>
         </div>
+        <div ng-if="loaded">
+          <p class="lead">
+            <md-content md-theme="docs-dark" class="md-padding" layout="row" layout-sm="column" style="font-size:1.2em">
+              <md-input-container required flex>
+                <label>Github Username</label>
+                <input required name="username" ng-model="currentUser.username" placeholder="">
+              </md-input-container>
+              <md-button ng-click="getAllWeeklyData()">Compare Users</md-button>
+            </md-content>
+          </p>
       </div>
+
       <div class="mastfoot">
         <div class="inner">
           <p>Cover template for <a href="http://getbootstrap.com">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
