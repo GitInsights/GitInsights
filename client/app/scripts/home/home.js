@@ -35,7 +35,7 @@
           convertTimeStampToDate();
           $scope.loaded = true;
           $scope.users.push($scope.currentUser);
-
+          $scope.currentUser = {};
         });
     };
 
