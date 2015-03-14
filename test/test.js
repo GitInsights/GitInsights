@@ -1,17 +1,24 @@
-describe('GitApi', function(){
+describe('GitInsight', function(){
 
-  // var GitApi;
-  // beforeEach(module('GitApi'));
-  // beforeEach(inject(function (_GitApi_){
-  //   GitApi = _GitApi_;
-  // }));
+  describe('GitApi', function(){
 
-  it('should work now', function(){
-    expect(true).to.equal(true);
+    var GitApi;
+    var Auth;
+
+    beforeEach(module('gitInsight.gitapi'));
+    beforeEach(module('gitInsight.auth'));
+    beforeEach(inject(function (_GitApi_, _Auth_){
+      GitApi = _GitApi_;
+      Auth = _Auth_;
+    }));
+
+    it('should work now', function(){
+      expect(true).to.equal(true);
+    });
+
+    it('should work now', function(){
+      expect(true).to.equal(true);
+    });
+
   });
-
-  it('should work now', function(){
-    expect(false).to.equal(true);
-  });
-
 });
