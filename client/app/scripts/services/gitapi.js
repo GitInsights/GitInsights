@@ -42,7 +42,7 @@ function GitApi ($q, $http, Auth) {
     return getUserRepos(username)
       .then(function (repos) {
         var promises = repos.map(function (repo) {
-          return getRepoWeeklyData(repo);
+          return getRepoWeeklyData(repo, username);
         });
         return $q.all(promises);
       });
@@ -50,7 +50,7 @@ function GitApi ($q, $http, Auth) {
 
   //returns an array of additions/deletions and commits
   //made by a user for a given repo
-  function getRepoWeeklyData (repo) {
+  function getRepoWeeklyData (repo, username) {
     var contributorsResource = repo.url + '/stats/contributors';
     return $http({
       method: 'GET',
@@ -59,7 +59,12 @@ function GitApi ($q, $http, Auth) {
         access_token: Auth.getToken()
       }
     }).then(function (res) {
-      return res.data[0];//bug: owner not always first object
+      //filter the user's activity
+      for(var i = 0; i < res.data.length; i++){
+        if(res.data[i].author.login === username) {
+          return res.data[i];
+        }
+      }
     });
   }
 
