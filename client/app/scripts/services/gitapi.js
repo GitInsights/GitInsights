@@ -59,7 +59,7 @@ function GitApi ($q, $http, Auth) {
         access_token: Auth.getToken()
       }
     }).then(function (res) {
-      return res.data[0];
+      return res.data[0];//bug: owner not always first object
     });
   }
 
