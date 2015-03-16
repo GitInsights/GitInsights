@@ -11,6 +11,56 @@ describe('GitInsight', function(){
       $httpBackend = $injector.get('$httpBackend');
       GitApi = _GitApi_;
       Auth = _Auth_;
+
+      //resource used by getUserRepos
+      var _userResource = gitApi + '/users/waieez/repos';
+      $httpBackend
+        .when('GET', _userResource)
+        .respond([
+          {
+            "full_name": "waieez/GitInsights",
+            "owner": {
+              "login":'waieez'
+            },
+            "url": gitApi + '/repos/waieez/GitInsights'
+          },
+          {
+            "full_name": "waieez/Blog",
+            "owner": {
+              "login":'waieez'
+            },
+            "url": gitApi + '/repos/waieez/Blog'
+          }            
+        ]);
+
+      //getAllWeeklyData will make an api call for each repo        
+      var _repoResource1 = gitApi + '/repos/waieez/GitInsights/stats/contributors';
+      $httpBackend
+        .when('GET', _repoResource1)
+        .respond([
+          {
+            "weeks": [{}, {}, {}],
+            "author": {"login":"imskojs"}
+          },
+          {
+            "weeks": [{}, {}, {}],
+            "author": {"login":"johnz133"}
+          },
+          {
+            "weeks": [{}, {}, {}],
+            "author": {"login":"waieez"}
+          }
+        ])
+
+      var _repoResource2 = gitApi + '/repos/waieez/Blog/stats/contributors';
+      $httpBackend
+        .when('GET', _repoResource2)
+        .respond([
+          {
+            "weeks": [{}, {}, {}],
+            "author": {"login":"waieez"}
+          }
+        ])
     }));
 
     afterEach(function () {
@@ -27,29 +77,14 @@ describe('GitInsight', function(){
 
     describe('getUserRepos', function () {
 
-      beforeEach(function(){
-        //used by getUserRepos
-        var _userResource = gitApi + '/users/GitInsights/repos';
-        $httpBackend
-          .when('GET', _userResource)
-          .respond([
-            {
-              "full_name": "GitInsights/GitInsights",
-              "owner": {
-                "login":'GitInsights'
-              }
-            }
-          ]);
-      });
-
       it("should return a list of a user's repos", function(){
-        GitApi.getUserRepos('GitInsights')
+        GitApi.getUserRepos('waieez')
           .then(function (repos) {
             var username = repos[0].owner.login;
             var repoName = repos[0].full_name;
-            expect(username).to.equal('GitInsights');
-            expect(repoName).to.equal('GitInsights/GitInsights');
-            expect(repos.length).to.equal(1);
+            expect(username).to.equal('waieez');
+            expect(repoName).to.equal('waieez/GitInsights');
+            expect(repos.length).to.equal(2);
           });
         $httpBackend.flush();
       });
@@ -58,29 +93,8 @@ describe('GitInsight', function(){
 
     describe('getRepoWeeklyData', function(){
 
-      beforeEach(function () {
-        //used by getRepoWeeklyData
-        var _repoResource = gitApi + '/repos/GitInsights/GitInsights/stats/contributors';
-        $httpBackend
-          .when('GET', _repoResource)
-          .respond([
-            {
-              "weeks": [{}, {}, {}],
-              "author": {"login":"imskojs"}
-            },
-            {
-              "weeks": [{}, {}, {}],
-              "author": {"login":"johnz133"}
-            },
-            {
-              "weeks": [{}, {}, {}],
-              "author": {"login":"waieez"}
-            }
-          ])
-      });
-
       it('should return an array of objects', function () {
-        var mockRepoObject = {url:gitApi + '/repos/GitInsights/GitInsights'};
+        var mockRepoObject = {url:gitApi + '/repos/waieez/GitInsights'};
         GitApi.getRepoWeeklyData(mockRepoObject, 'waieez')
           .then(function(data){
             var authorName = data.author.login;
@@ -93,9 +107,15 @@ describe('GitInsight', function(){
 
     });
 
-    xdescribe('getAllWeeklyData', function () {
-
+    describe('getAllWeeklyData', function () {
+      
+      it("should return the user's weekly data", function(){
+        GitApi.getAllWeeklyData('waieez')
+          .then(function (result) {
+            expect(result.length).to.equal(2);
+          });
+        $httpBackend.flush();
+      });
     });
-
   });
 });
