@@ -1,3 +1,5 @@
+"use strict";
+
 describe('GitApi', function(){
 
   describe('Core', function(){
@@ -50,7 +52,7 @@ describe('GitApi', function(){
             "weeks": [{}, {}, {}],
             "author": {"login":"waieez"}
           }
-        ])
+        ]);
 
       var _repoResource2 = gitApi + '/repos/waieez/Blog/stats/contributors';
       $httpBackend
@@ -60,7 +62,7 @@ describe('GitApi', function(){
             "weeks": [{}, {}, {}],
             "author": {"login":"waieez"}
           }
-        ])
+        ]);
     }));
 
     afterEach(function () {
@@ -101,7 +103,7 @@ describe('GitApi', function(){
             var weeksData = data.weeks;
             expect(authorName).to.equal('waieez');
             expect(weeksData.length).to.eql(3);
-          })
+          });
         $httpBackend.flush();
       });
 
