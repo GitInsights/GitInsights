@@ -1,6 +1,6 @@
-describe('GitInsight', function(){
+describe('GitApi', function(){
 
-  describe('GitApi', function(){
+  describe('Core', function(){
 
     var $httpBackend, GitApi, Auth;
     var gitApi = 'https://api.github.com';
