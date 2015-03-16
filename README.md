@@ -24,3 +24,5 @@ GitInsights Today!
 
 ## Licence
 MIT
+
+https://codeship.com/projects/7cdce540-ab49-0132-e8c7-262a69de4513/status?branch=master
