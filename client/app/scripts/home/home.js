@@ -42,8 +42,8 @@
           return GitApi.gatherLanguageData(data);
         })
         .then(function (data) {
-          var thing = GitApi.squashAllData(data);
-          console.log(thing);
+          var languages = GitApi.getUserLanguages(data);
+          console.log(languages);
         });
     };
 
