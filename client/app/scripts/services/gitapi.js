@@ -1,5 +1,5 @@
 (function(){
-"use strict"
+"use strict";
 
 angular.module('gitInsight.gitapi', [])
   .factory('GitApi', GitApi);
@@ -62,10 +62,12 @@ function GitApi ($q, $http, Auth) {
       }
     }).then(function (res) {
       var numContributors = res.data.length;
-      //filter the user's activity
+      //if there are multiple contributors for this repo,
+      //we need to find the one that matches the queried user
       for(var i = 0; i < numContributors; i++){
         if(res.data[i].author.login === username) {
           var data = res.data[i];
+        //we attach some metadata that will help us with chaining these queries
           data.url = repo.url;
           data.numContributors = numContributors;
           return data;
@@ -96,7 +98,8 @@ function GitApi ($q, $http, Auth) {
     }).then(function (res){
       var repos = res.data;
       var username = res.data[0].owner.login;
-      return usersRepos[username] = repos;
+      usersRepos[username] = repos;
+      return usersRepos[username];
     });
   }
 

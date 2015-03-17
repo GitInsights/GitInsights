@@ -55,8 +55,8 @@
           newTimeStamps = [];
       for(var prop in data){
           tempTimeStamps.push(prop);
-          additions.push(data[prop]['a']);
-          deletions.push(data[prop]['d']);
+          additions.push(data[prop].a);
+          deletions.push(data[prop].d);
       }
       $scope.graphData.push(additions);
       $scope.graphData.push(deletions);
