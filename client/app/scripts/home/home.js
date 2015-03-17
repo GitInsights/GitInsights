@@ -36,6 +36,14 @@
           $scope.loaded = true;
           $scope.users.push($scope.currentUser);
           $scope.currentUser = {};
+          return data;
+        })
+        .then(function (data) {
+          return GitApi.gatherLanguageData(data);
+        })
+        .then(function (data) {
+          var thing = GitApi.squashAllData(data);
+          console.log(thing);
         });
     };
 
