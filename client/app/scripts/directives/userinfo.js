@@ -1,8 +1,8 @@
 (function () {
-'use strict'
+'use strict';
 
 angular.module('gitInsight.userinfo', [])
-  .directive('userInfo', userInfo)
+  .directive('userInfo', userInfo);
 
 function userInfo () {
   return {
@@ -12,10 +12,10 @@ function userInfo () {
     scope: {
       user: '='
     }
-  }
+  };
 
   function link (scope, ele, attrs) {
   }
 }
 
-})()
+})();

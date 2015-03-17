@@ -23,5 +23,5 @@ angular.module('gitInsight', [
     })
     .otherwise({
       redirectTo: '/'
-    })
+    });
 });

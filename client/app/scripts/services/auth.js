@@ -1,10 +1,10 @@
 (function () {
-'use strict'
+'use strict';
 
 angular.module('gitInsight.auth', [])
   .factory('Auth', Auth);
 
-Auth.$inject = []
+Auth.$inject = [];
 function Auth () {
   var ref = new Firebase("https://boiling-torch-2275.firebaseio.com");
   var githubToken;
@@ -12,7 +12,7 @@ function Auth () {
   return {
     login: login,
     getToken: getToken
-  }
+  };
 
   function getToken () {
     return githubToken;
@@ -26,8 +26,8 @@ function Auth () {
         console.log("Authenticated successfully with payload:", authData);
         githubToken = authData.github.accessToken;
       }
-    });//()
+    });
   }
 }
 
-})()
+})();

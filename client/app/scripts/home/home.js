@@ -36,6 +36,14 @@
           $scope.loaded = true;
           $scope.users.push($scope.currentUser);
           $scope.currentUser = {};
+          return data;
+        })
+        .then(function (data) {
+          return GitApi.gatherLanguageData(data);
+        })
+        .then(function (data) {
+          var languages = GitApi.getUserLanguages(data);
+          console.log(languages);
         });
     };
 
@@ -47,8 +55,8 @@
           newTimeStamps = [];
       for(var prop in data){
           tempTimeStamps.push(prop);
-          additions.push(data[prop]['a']);
-          deletions.push(data[prop]['d']);
+          additions.push(data[prop].a);
+          deletions.push(data[prop].d);
       }
       $scope.graphData.push(additions);
       $scope.graphData.push(deletions);
