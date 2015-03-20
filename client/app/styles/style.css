@@ -8,7 +8,7 @@
 a,
 a:focus,
 a:hover {
-  color: #fff;
+  color: #222;
 }
 
 /* Custom default button */
@@ -17,7 +17,7 @@ a:hover {
 .btn-default:focus {
   color: #333;
   text-shadow: none; /* Prevent inheritence from `body` */
-  background-color: #fff;
+  /*background-color: #fff;*/
   border: 1px solid #fff;
 }
 
@@ -29,10 +29,10 @@ a:hover {
 html,
 body {
   height: 100%;
-  background-color: #333;
+  /*background-color: #333;*/
 }
 body {
-  color: #fff;
+  color: #333;
   text-align: center;
   text-shadow: 0 1px 3px rgba(0,0,0,.5);
 }
@@ -81,7 +81,7 @@ body {
   font-size: 16px;
   font-weight: bold;
   color: #fff; /* IE8 proofing */
-  color: rgba(255,255,255,.75);
+  color: rgba(55,55,55,.75);
   border-bottom: 2px solid transparent;
 }
 .masthead-nav > li > a:hover,
@@ -93,7 +93,7 @@ body {
 .masthead-nav > .active > a,
 .masthead-nav > .active > a:hover,
 .masthead-nav > .active > a:focus {
-  color: #fff;
+  color: #333;
   border-bottom-color: #fff;
 }
 
@@ -126,7 +126,7 @@ body {
 
 .mastfoot {
   color: #999; /* IE8 proofing */
-  color: rgba(255,255,255,.5);
+  color: rgba(55,55,55,.5);
 }
 
 
@@ -160,6 +160,13 @@ body {
   .masthead,
   .mastfoot,
   .cover-container {
-    width: 700px;
+    width: 1100px;
   }
 }
+
+#chart {
+  margin-top: 100px;
+  clear: both;
+  padding: 1px;
+}
+
