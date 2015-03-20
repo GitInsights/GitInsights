@@ -5,7 +5,7 @@
           <h3 class="masthead-brand">Git Insight</h3>
           <nav>
             <ul class="nav masthead-nav">
-              <li class="active"><a href="#">Home</a></li>
+              <li class="active"><a href="#/">Home</a></li>
               <li><a href="#/compare">Compare</a></li>
               <li><a ng-click="login()" href="">Login with Git</a></li>
             </ul>
@@ -13,6 +13,14 @@
         </div>
       </div>
 
+      <div ng-if="loaded" id="chart" class="clearfix">
+        <svg style="height:500px;">
+        </svg>
+      </div>
+      <div ng-if="loaded" id="chart2" class="clearfix">
+        <svg style="height:300px;">
+        </svg>
+      </div>
       <canvas ng-if="loaded" id="line" class="chart chart-line" data="graphData" labels="labels" legend="true" series="series">
       </canvas>
       <user-info ng-if="loaded" user="user" ng-model="user"></user-info>
