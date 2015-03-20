@@ -1,28 +1,52 @@
-## GitInsights ##
-For Recruiters/Developers looking to find talent.
+![Codeshipped!](https://codeship.com/projects/7cdce540-ab49-0132-e8c7-262a69de4513/status?branch=test)
 
-## Summary ##
-Quickly visualize/analyze Github user activity.
+# GitInsights!
 
-## Problem ##
+Quickly visualize/analyze Github user activity, GitInsights Today!
+
+## Team
+
+  - __Product Owner__: John Zhang
+  - __Scrum Master__: Eli Xian
+  - __Development Team Members__: John Zhang, Eli Xian, Seunghoon Ko
+
+## Table of Contents
+
+1. [Usage](#Usage)
+1. [Requirements](#requirements)
+1. [Development](#development)
+    1. [Installing Dependencies](#installing-dependencies)
+    1. [Tasks](#tasks)
+1. [Team](#team)
+1. [Contributing](#contributing)
+
+## Usage
+
 Finding talent via Github is hard. Github Insights makes it easy to analyse and visualize the information you care about by simply searching their username.
 
-## Solution ##
-Quickly visualize/analyze Github user activity
+## Requirements
 
-## Quote from You ##
-GitInsight as your talent finder.
+- Node 0.10.x
+- Express 4.12.x
+- Angular 1.3.x
 
-## How to Get Started ##
-Type the github username you are interested in, boom info at a glance.
+## Development
 
-## Customer Quote ##
-“I recruited the best engineer with GitInsight! I saw that he actually a lot of experience with Rust, instead of some students just trying to make a greenfield project in Rust.”
+### Installing Dependencies
 
-## Closing and Call to Action ##
-GitInsights Today!
+From within the root directory:
 
-## Licence
-MIT
+```sh
+sudo npm install -g bower
+npm install
+bower install
+```
 
-![Codeshipped!](https://codeship.com/projects/7cdce540-ab49-0132-e8c7-262a69de4513/status?branch=test)
+### Roadmap
+
+View the project roadmap [here](LINK_TO_PROJECT_ISSUES)
+
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.

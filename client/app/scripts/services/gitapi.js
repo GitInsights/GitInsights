@@ -50,17 +50,22 @@ function GitApi ($q, $http, Auth) {
       });
   }
 
+  function get (url, params) {
+    //perhaps extend params with given input
+    params = params || {access_token: Auth.getToken()};
+    return $http({
+      method: 'GET',
+      url: url,
+      params: params
+    });
+  }
+
   //returns an array of additions/deletions and commits
   //made by a user for a given repo
   function getRepoWeeklyData (repo, username) {
-    var contributorsResource = repo.url + '/stats/contributors';
-    return $http({
-      method: 'GET',
-      url: contributorsResource,
-      params: {
-        access_token: Auth.getToken()
-      }
-    }).then(function (res) {
+    var contributors = repo.url + '/stats/contributors';
+
+    return get(contributors).then(function (res) {
       var numContributors = res.data.length;
       //if there are multiple contributors for this repo,
       //we need to find the one that matches the queried user
@@ -87,15 +92,8 @@ function GitApi ($q, $http, Auth) {
     //else, fetch via api
     //currently only fetches repos owned by user
     //TODO: Fetch all repos user has contributed to
-    var userReposResource = 'users/' + username + '/repos';
-
-    return $http({
-      method: 'GET',
-      url: gitApi + userReposResource,
-      params: {
-        access_token: Auth.getToken()
-      }
-    }).then(function (res){
+    var userRepos = gitApi + 'users/' + username + '/repos';
+    return get(userRepos).then(function (res){
       var repos = res.data;
       var username = res.data[0].owner.login;
       usersRepos[username] = repos;
@@ -104,13 +102,8 @@ function GitApi ($q, $http, Auth) {
   }
 
   function getUserContact (username) {
-    return $http({
-      method: 'GET',
-      url: gitApi + "users/" + username,
-      params: {
-        access_token: Auth.getToken()
-      }
-    }).then(function (res) {
+    var userContact = gitApi + "users/" + username;
+    return get(userContact).then(function (res) {
       return res.data;
     });
   }
@@ -175,14 +168,8 @@ function GitApi ($q, $http, Auth) {
   //returns an object representing the number of bytes
   //each language used in this repo uses.
   function getLanguageStats (repo) {
-    return $http({
-      method: 'GET',
-      url: repo.url + '/languages',
-      params: {
-        access_token: Auth.getToken()
-      }
-    })
-    .then(function (res) {
+    var repoLanguages = repo.url + '/languages'
+    return get(repoLanguages).then(function (res) {
       return res.data;
     });
   }
@@ -191,14 +178,8 @@ function GitApi ($q, $http, Auth) {
   //each subarray contains information about the total number of additions/deletions
   //for a given week made in this repo
   function getCodeFrequency (repo) {
-    return $http({
-      method: 'GET',
-      url: repo.url + '/stats/code_frequency',
-      params: {
-        access_token: Auth.getToken()
-      }
-    })
-    .then(function (res) {
+    var repoCodeFreq = repo.url + '/stats/code_frequency';
+    return get(repoCodeFreq).then(function (res) {
       return res.data;
     });
   }
