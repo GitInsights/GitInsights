@@ -19,7 +19,7 @@
     $scope.series = [];
     $scope.graphData = [];
     $scope.timeStamps = [];
-    $scope.data1 =[];
+    $scope.userOneData = [];
 
     $scope.getUserRepos = function(){
       GitApi.getUserRepos($scope.currentUser.username)
@@ -46,37 +46,39 @@
         });
     };
 
+    //TODO: refactor into service
     var addGraphData = function(data){
-
-      var additions = [],
-      deletions = [],
-      dates = [],
-      tempTimeStamps = [],
-      newTimeStamps = [];
-
-      for(var prop in data){
-        tempTimeStamps.push(+prop);
-        additions.push(data[prop].a);
-        deletions.push(data[prop].d);
+      
+      var additions = [];
+      var deletions = [];
+      var unixTimeStamps = [];
+      var newTimeStamps = [];
+      
+      for(var week in data){
+        unixTimeStamps.push(+week);
+        additions.push(data[week].a);
+        deletions.push(data[week].d);
       }
-
+      
       var series1 = {"key": $scope.currentUser.username + "'s Additions", "values": []};
       var series2 = {"key": $scope.currentUser.username + "'s Deletions", "values": []};
 
-      for(var i = 0; i < tempTimeStamps.length; i++){
-        series1.values.push([tempTimeStamps[i], additions[i]])
-        series2.values.push([tempTimeStamps[i], deletions[i]])
+      for(var i = 0; i < unixTimeStamps.length; i++){
+        series1.values.push([unixTimeStamps[i], additions[i]]);
+        series2.values.push([unixTimeStamps[i], deletions[i]]);
       }
-      if($scope.data1.length >= 4){
-        $scope.data1 = [];
+
+      if($scope.userOneData.length >= 4){
+        $scope.userOneData = [];
       }
-      $scope.data1.push(series1)
-      $scope.data1.push(series2)
+
+      $scope.userOneData.push(series1);
+      $scope.userOneData.push(series2);
 
       // nv is a nvd3 library object. (on global scope)
       nv.addGraph(function() {
         // Creates multi-line graph
-        var chart = nv.models.cumulativeLineChart()
+        var chart = nv.models.lineChart()
         .x(function(d) { return d[0] })
         .y(function(d) { return d[1] }) 
         .color(d3.scale.category10().range())
@@ -84,7 +86,7 @@
     
         // Define x axis
         chart.xAxis
-        // .tickValues(tempTimeStamps)
+        // .tickValues(unixTimeStamps)
         .tickFormat(function(d) {
           return d3.time.format('%x')(new Date(d*1000))
         });
@@ -96,7 +98,7 @@
     
         // append defined chart to svg element
         d3.select('#chart svg')
-        .datum($scope.data1)
+        .datum($scope.userOneData)
         .call(chart);
 
         // resizes graph when window resizes
@@ -115,27 +117,28 @@
 
       //Changes format from {JavaScript: 676977.4910200321, CSS: 3554.990878681176, HTML: 41.838509316770185, Shell: 4024.4960858041054}
       // to [{"key": "One", "value": 222}, ... , {"key": "Last", "value": 222}]
-      var data2 = d3.entries(languages)
+      var languageData = d3.entries(languages)
 
       // Add second pie chart when comparing users.
-      var charty = "#chart2"
+      var chart = "#chart2"
       if(count === 2){
-        charty = "#chart3"
+        chart = "#chart3"
       }
 
       // nvd3 library's pie chart.
       nv.addGraph(function() {
-        var chart = nv.models.pieChart()
+        var pieChart = nv.models.pieChart()
             .x(function(d) { return d.key })
             .y(function(d) { return d.value })
-            .showLabels(true);
+            .showLabels(true)
+            .labelType("percent");
 
-          d3.select(charty + " svg")
-              .datum(data2)
+          d3.select(chart + " svg")
+              .datum(languageData)
               .transition().duration(350)
-              .call(chart);
+              .call(pieChart);
 
-        return chart;
+        return pieChart;
       });
     };
 
