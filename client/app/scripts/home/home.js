@@ -73,52 +73,57 @@
       $scope.data1.push(series1)
       $scope.data1.push(series2)
 
-      // [{"key": "additions", "values": [[xdate, yvalue]...[xdate, yvalue]}]
-      // Time Series property.
+      // nv is a nvd3 library object. (on global scope)
       nv.addGraph(function() {
+        // Creates multi-line graph
         var chart = nv.models.cumulativeLineChart()
         .x(function(d) { return d[0] })
         .y(function(d) { return d[1] }) 
         .color(d3.scale.category10().range())
         .useInteractiveGuideline(true);
     
+        // Define x axis
         chart.xAxis
         // .tickValues(tempTimeStamps)
         .tickFormat(function(d) {
           return d3.time.format('%x')(new Date(d*1000))
         });
     
+        // Define y axis
         chart.yAxis
         .domain(d3.range(additions))
         .tickFormat(d3.format('d'));
     
+        // append defined chart to svg element
         d3.select('#chart svg')
         .datum($scope.data1)
         .call(chart);
 
+        // resizes graph when window resizes
         nv.utils.windowResize(chart.update);
         return chart;
-
-      // nv.addGraph End
       });
-
-    // addGraphData End
     };
 
     var count = 0
     var addPieGraph = function (languages){
-      //{JavaScript: 676977.4910200321, CSS: 3554.990878681176, HTML: 41.838509316770185, Shell: 4024.4960858041054}
-      //[{"label": "One", "value": 222}, ... , {"label": "Last", "value": 222}]
+      // Limits max user comparison = 2
       count++
       if(count > 2){
         count = 1;
       }
+
+      //Changes format from {JavaScript: 676977.4910200321, CSS: 3554.990878681176, HTML: 41.838509316770185, Shell: 4024.4960858041054}
+      // to [{"key": "One", "value": 222}, ... , {"key": "Last", "value": 222}]
       var data2 = d3.entries(languages)
 
+      // Add second pie chart when comparing users.
       var charty = "#chart2"
       if(count === 2){
         charty = "#chart3"
       }
+
+      // nvd3 library's pie chart.
       nv.addGraph(function() {
         var chart = nv.models.pieChart()
             .x(function(d) { return d.key })
