@@ -20,7 +20,10 @@ function GitApi ($q, $http, Auth) {
     getUserLanguages: getUserLanguages
   };
 
-  //reduces data from each week
+  //a week is an array of objects
+  //each object is in the form of {additions: #, deletions #, week:#(UNIX time)}
+  //we extract the additions and deletions from each data object for each week, from each repo
+  //we return an array of reduced week objects to graph the total additions/deletions
   function reduceAllWeeklyData (array, username) {
     var reduced = {};
     array.forEach(function (result) {
@@ -51,6 +54,9 @@ function GitApi ($q, $http, Auth) {
   }
 
   function get (url, params) {
+    //Auth.getToken() retrieves the gitToken when a user authenticates with
+    //firebase's Github Provider
+
     //perhaps extend params with given input
     params = params || {access_token: Auth.getToken()};
     return $http({
@@ -141,6 +147,9 @@ function GitApi ($q, $http, Auth) {
         return [];
       }
     });
+    //$q is angular's light version of the q promise library
+    //each api call executes asynchronously,
+    //we return only when all of them have resolved
     return $q.all(promises);
   }
 
@@ -206,10 +215,14 @@ function GitApi ($q, $http, Auth) {
     var userNetAdditions = 0;
     var repoNetAdditions = 0;
 
+    //weeklyData is an array of week objects
+    //with the format {additions:#, deletions:#, week:#(UNIX Timestamp)}
     weeklyData.forEach(function (week) {
       userNetAdditions += (week.a - week.d);
     });
 
+    //codeFreq is is an array of arrays
+    //with the format [timestamp, additions, deletions]
     codeFreq.forEach(function (week) {
       repoNetAdditions += (week[1] - week[2]);
     });
