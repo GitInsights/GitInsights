@@ -7,7 +7,6 @@
   .config( function($mdThemingProvider){
     $mdThemingProvider.theme('docs-dark', 'default')
     .primaryPalette('light-blue')
-    .dark();
   });
 
   HomeController.$inject = ['$scope', '$window', '$location', 'GitApi', 'Auth'];
@@ -33,7 +32,6 @@
       GitApi.getAllWeeklyData($scope.currentUser.username)
         .then(function(data){
           addGraphData(GitApi.reduceAllWeeklyData(data, $scope.currentUser.username));
-          convertTimeStampToDate();
           $scope.loaded = true;
           $scope.users.push($scope.currentUser);
           $scope.currentUser = {};
@@ -44,7 +42,7 @@
         })
         .then(function (data) {
           var languages = GitApi.getUserLanguages(data);
-          console.log(languages);
+          addPieGraph(languages);
         });
     };
 
@@ -106,7 +104,7 @@
 
     // addGraphData End
     };
-    
+
     var count = 0
     var addPieGraph = function (languages){
       //{JavaScript: 676977.4910200321, CSS: 3554.990878681176, HTML: 41.838509316770185, Shell: 4024.4960858041054}
@@ -139,7 +137,6 @@
     $scope.login = function(){
       Auth.login();
     };
-
 
   }
 })();
