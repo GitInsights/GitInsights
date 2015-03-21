@@ -1,7 +1,7 @@
 (function(){
   'use strict';
 
-  angular.module('gitInsight.home', ['ngMaterial', 'ngMessages', 'chart.js', 'gitInsight.gitapi', 'gitInsight.auth'])
+  angular.module('gitInsight.home', ['ngMaterial', 'ngMessages'])
   .controller('HomeController', HomeController)
   //defines the colors
   .config( function($mdThemingProvider){
