@@ -17,7 +17,14 @@
         <svg style="height:500px;">
         </svg>
       </div>
-      
+     <div ng-if="loaded" id="chart2" class="clearfix">
+       <svg style="height:300px;">
+       </svg>
+     </div>
+     <div ng-if="loaded" id="chart3" class="clearfix">
+       <svg style="height:300px;">
+       </svg>
+     </div> 
       <user-info ng-if="loaded" user="user" ng-model="user"></user-info>
       <div class="inner cover" id='home'>
         <div ng-if="!loaded">
