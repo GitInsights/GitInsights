@@ -7,7 +7,6 @@
   .config( function($mdThemingProvider){
     $mdThemingProvider.theme('docs-dark', 'default')
     .primaryPalette('light-blue')
-    .dark();
   });
 
   HomeController.$inject = ['$scope', '$window', '$location', 'GitApi', 'Auth'];
@@ -20,6 +19,7 @@
     $scope.series = [];
     $scope.graphData = [];
     $scope.timeStamps = [];
+    $scope.data1 =[];
 
     $scope.getUserRepos = function(){
       GitApi.getUserRepos($scope.currentUser.username)
@@ -32,7 +32,6 @@
       GitApi.getAllWeeklyData($scope.currentUser.username)
         .then(function(data){
           addGraphData(GitApi.reduceAllWeeklyData(data, $scope.currentUser.username));
-          convertTimeStampToDate();
           $scope.loaded = true;
           $scope.users.push($scope.currentUser);
           $scope.currentUser = {};
@@ -43,70 +42,106 @@
         })
         .then(function (data) {
           var languages = GitApi.getUserLanguages(data);
-          console.log(languages);
+          addPieGraph(languages);
         });
     };
 
     var addGraphData = function(data){
+
       var additions = [],
-          deletions = [],
-          dates = [],
-          tempTimeStamps = [],
-          newTimeStamps = [];
+      deletions = [],
+      dates = [],
+      tempTimeStamps = [],
+      newTimeStamps = [];
+
       for(var prop in data){
-          tempTimeStamps.push(prop);
-          additions.push(data[prop].a);
-          deletions.push(data[prop].d);
+        tempTimeStamps.push(+prop);
+        additions.push(data[prop].a);
+        deletions.push(data[prop].d);
       }
-      $scope.graphData.push(additions);
-      $scope.graphData.push(deletions);
-      $scope.series.push($scope.currentUser.username + "'s Additions");
-      $scope.series.push($scope.currentUser.username + "'s Deletions");
-      var j, i, debug;
-      i = j = debug = 0;
-      while(i < tempTimeStamps.length && j < $scope.timeStamps.length){
-        if(tempTimeStamps[i]===$scope.timeStamps[j]){
-          newTimeStamps.push(tempTimeStamps[i++]);
-          j++;
-        } else if(tempTimeStamps[i] < $scope.timeStamps[j]){
-          newTimeStamps.push(tempTimeStamps[i++]);
-        } else {
-          newTimeStamps.push($scope.timeStamps[j++]);
-        }
+
+      var series1 = {"key": $scope.currentUser.username + "'s Additions", "values": []};
+      var series2 = {"key": $scope.currentUser.username + "'s Deletions", "values": []};
+
+      for(var i = 0; i < tempTimeStamps.length; i++){
+        series1.values.push([tempTimeStamps[i], additions[i]])
+        series2.values.push([tempTimeStamps[i], deletions[i]])
       }
-      if(i === tempTimeStamps.length){
-        for(;j < $scope.timeStamps.length; j++){
-          newTimeStamps.push($scope.timeStamps[j]);
-        }
-      } else {
-        for(;i < tempTimeStamps.length; i++){
-          newTimeStamps.push(tempTimeStamps[i]);
-        }
+      if($scope.data1.length >= 4){
+        $scope.data1 = [];
       }
-      $scope.timeStamps = newTimeStamps;
+      $scope.data1.push(series1)
+      $scope.data1.push(series2)
+
+      // nv is a nvd3 library object. (on global scope)
+      nv.addGraph(function() {
+        // Creates multi-line graph
+        var chart = nv.models.cumulativeLineChart()
+        .x(function(d) { return d[0] })
+        .y(function(d) { return d[1] }) 
+        .color(d3.scale.category10().range())
+        .useInteractiveGuideline(true);
+    
+        // Define x axis
+        chart.xAxis
+        // .tickValues(tempTimeStamps)
+        .tickFormat(function(d) {
+          return d3.time.format('%x')(new Date(d*1000))
+        });
+    
+        // Define y axis
+        chart.yAxis
+        .domain(d3.range(additions))
+        .tickFormat(d3.format('d'));
+    
+        // append defined chart to svg element
+        d3.select('#chart svg')
+        .datum($scope.data1)
+        .call(chart);
+
+        // resizes graph when window resizes
+        nv.utils.windowResize(chart.update);
+        return chart;
+      });
     };
 
-    var convertTimeStampToDate = function(){
-      $scope.labels = [];
-      for(var i = 0; i < $scope.timeStamps.length; i++){
-        $scope.labels.push(toDate($scope.timeStamps[i]));
+    var count = 0
+    var addPieGraph = function (languages){
+      // Limits max user comparison = 2
+      count++
+      if(count > 2){
+        count = 1;
       }
-    };
 
-    var toDate = function(timestamp){
-      var a = new Date(timestamp*1000);
-      var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-      var year = a.getFullYear();
-      var month = a.getMonth()+1;
-      var date = a.getDate();
-      var time = date + '/' + month + '/' + year ;
-      return time;
+      //Changes format from {JavaScript: 676977.4910200321, CSS: 3554.990878681176, HTML: 41.838509316770185, Shell: 4024.4960858041054}
+      // to [{"key": "One", "value": 222}, ... , {"key": "Last", "value": 222}]
+      var data2 = d3.entries(languages)
+
+      // Add second pie chart when comparing users.
+      var charty = "#chart2"
+      if(count === 2){
+        charty = "#chart3"
+      }
+
+      // nvd3 library's pie chart.
+      nv.addGraph(function() {
+        var chart = nv.models.pieChart()
+            .x(function(d) { return d.key })
+            .y(function(d) { return d.value })
+            .showLabels(true);
+
+          d3.select(charty + " svg")
+              .datum(data2)
+              .transition().duration(350)
+              .call(chart);
+
+        return chart;
+      });
     };
 
     $scope.login = function(){
       Auth.login();
     };
-
 
   }
 })();

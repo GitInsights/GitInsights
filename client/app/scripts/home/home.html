@@ -13,8 +13,18 @@
         </div>
       </div>
 
-      <canvas ng-if="loaded" id="line" class="chart chart-line" data="graphData" labels="labels" legend="true" series="series">
-      </canvas>
+      <div ng-if="loaded" id="chart" class="clearfix">
+        <svg style="height:500px;">
+        </svg>
+      </div>
+     <div ng-if="loaded" id="chart2" class="clearfix">
+       <svg style="height:300px;">
+       </svg>
+     </div>
+     <div ng-if="loaded" id="chart3" class="clearfix">
+       <svg style="height:300px;">
+       </svg>
+     </div> 
       <user-info ng-if="loaded" user="user" ng-model="user"></user-info>
       <div class="inner cover" id='home'>
         <div ng-if="!loaded">
