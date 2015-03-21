@@ -86,23 +86,6 @@
       $scope.timeStamps = newTimeStamps;
     };
 
-    var convertTimeStampToDate = function(){
-      $scope.labels = [];
-      for(var i = 0; i < $scope.timeStamps.length; i++){
-        $scope.labels.push(toDate($scope.timeStamps[i]));
-      }
-    };
-
-    var toDate = function(timestamp){
-      var a = new Date(timestamp*1000);
-      var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-      var year = a.getFullYear();
-      var month = a.getMonth()+1;
-      var date = a.getDate();
-      var time = date + '/' + month + '/' + year ;
-      return time;
-    };
-
     $scope.login = function(){
       Auth.login();
     };
