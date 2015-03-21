@@ -20,6 +20,7 @@
     $scope.series = [];
     $scope.graphData = [];
     $scope.timeStamps = [];
+    $scope.data1 =[];
 
     $scope.getUserRepos = function(){
       GitApi.getUserRepos($scope.currentUser.username)
@@ -48,42 +49,62 @@
     };
 
     var addGraphData = function(data){
+
       var additions = [],
-          deletions = [],
-          dates = [],
-          tempTimeStamps = [],
-          newTimeStamps = [];
+      deletions = [],
+      dates = [],
+      tempTimeStamps = [],
+      newTimeStamps = [];
+
       for(var prop in data){
-          tempTimeStamps.push(prop);
-          additions.push(data[prop].a);
-          deletions.push(data[prop].d);
+        tempTimeStamps.push(+prop);
+        additions.push(data[prop].a);
+        deletions.push(data[prop].d);
       }
-      $scope.graphData.push(additions);
-      $scope.graphData.push(deletions);
-      $scope.series.push($scope.currentUser.username + "'s Additions");
-      $scope.series.push($scope.currentUser.username + "'s Deletions");
-      var j, i, debug;
-      i = j = debug = 0;
-      while(i < tempTimeStamps.length && j < $scope.timeStamps.length){
-        if(tempTimeStamps[i]===$scope.timeStamps[j]){
-          newTimeStamps.push(tempTimeStamps[i++]);
-          j++;
-        } else if(tempTimeStamps[i] < $scope.timeStamps[j]){
-          newTimeStamps.push(tempTimeStamps[i++]);
-        } else {
-          newTimeStamps.push($scope.timeStamps[j++]);
-        }
+
+      var series1 = {"key": $scope.currentUser.username + "'s Additions", "values": []};
+      var series2 = {"key": $scope.currentUser.username + "'s Deletions", "values": []};
+
+      for(var i = 0; i < tempTimeStamps.length; i++){
+        series1.values.push([tempTimeStamps[i], additions[i]])
+        series2.values.push([tempTimeStamps[i], deletions[i]])
       }
-      if(i === tempTimeStamps.length){
-        for(;j < $scope.timeStamps.length; j++){
-          newTimeStamps.push($scope.timeStamps[j]);
-        }
-      } else {
-        for(;i < tempTimeStamps.length; i++){
-          newTimeStamps.push(tempTimeStamps[i]);
-        }
+      if($scope.data1.length >= 4){
+        $scope.data1 = [];
       }
-      $scope.timeStamps = newTimeStamps;
+      $scope.data1.push(series1)
+      $scope.data1.push(series2)
+
+      // [{"key": "additions", "values": [[xdate, yvalue]...[xdate, yvalue]}]
+      // Time Series property.
+      nv.addGraph(function() {
+        var chart = nv.models.cumulativeLineChart()
+        .x(function(d) { return d[0] })
+        .y(function(d) { return d[1] }) 
+        .color(d3.scale.category10().range())
+        .useInteractiveGuideline(true);
+    
+        chart.xAxis
+        // .tickValues(tempTimeStamps)
+        .tickFormat(function(d) {
+          return d3.time.format('%x')(new Date(d*1000))
+        });
+    
+        chart.yAxis
+        .domain(d3.range(additions))
+        .tickFormat(d3.format('d'));
+    
+        d3.select('#chart svg')
+        .datum($scope.data1)
+        .call(chart);
+
+        nv.utils.windowResize(chart.update);
+        return chart;
+
+      // nv.addGraph End
+      });
+
+    // addGraphData End
     };
 
     $scope.login = function(){
