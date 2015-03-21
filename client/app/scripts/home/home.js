@@ -109,19 +109,27 @@ var add, sub, commit, tim;
     // addGraphData End
     };
 
+    var count = 0
     var addPieGraph = function (languages){
       //{JavaScript: 676977.4910200321, CSS: 3554.990878681176, HTML: 41.838509316770185, Shell: 4024.4960858041054}
       //[{"label": "One", "value": 222}, ... , {"label": "Last", "value": 222}]
-
+      count++
+      if(count > 2){
+        count = 1;
+      }
       var data2 = d3.entries(languages)
 
+      var charty = "#chart2"
+      if(count === 2){
+        charty = "#chart3"
+      }
       nv.addGraph(function() {
         var chart = nv.models.pieChart()
             .x(function(d) { return d.key })
             .y(function(d) { return d.value })
             .showLabels(true);
 
-          d3.select("#chart2 svg")
+          d3.select(charty + " svg")
               .datum(data2)
               .transition().duration(350)
               .call(chart);
