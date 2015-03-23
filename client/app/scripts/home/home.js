@@ -49,18 +49,17 @@
 
     //TODO: refactor into service
     var addGraphData = function(data){
-      
+
       var additions = [];
       var deletions = [];
       var unixTimeStamps = [];
       var newTimeStamps = [];
-      
+
       for(var week in data){
         unixTimeStamps.push(+week);
         additions.push(data[week].a);
         deletions.push(data[week].d);
       }
-      
       var series1 = {"key": $scope.currentUser.username + "'s Additions", "values": []};
       var series2 = {"key": $scope.currentUser.username + "'s Deletions", "values": []};
 
@@ -81,22 +80,22 @@
         // Creates multi-line graph
         var chart = nv.models.lineChart()
         .x(function(d) { return d[0] })
-        .y(function(d) { return d[1] }) 
+        .y(function(d) { return d[1] })
         .color(d3.scale.category10().range())
         .useInteractiveGuideline(true);
-    
+
         // Define x axis
         chart.xAxis
         // .tickValues(unixTimeStamps)
         .tickFormat(function(d) {
           return d3.time.format('%x')(new Date(d*1000))
         });
-    
+
         // Define y axis
         chart.yAxis
         .domain(d3.range(additions))
         .tickFormat(d3.format('d'));
-    
+
         // append defined chart to svg element
         d3.select('#chart svg')
         .datum($scope.userOneData)

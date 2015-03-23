@@ -137,16 +137,16 @@ body {
 @media (min-width: 768px) {
   /* Pull out the header and footer */
   .masthead {
-    position: fixed;
+    position: relative;
     top: 0;
   }
   .mastfoot {
-    position: fixed;
+    position: relative;
     bottom: 0;
   }
   /* Start the vertical centering */
   .site-wrapper-inner {
-    vertical-align: middle;
+    /*vertical-align: middle;*/
   }
   /* Handle the widths */
   .masthead,
@@ -170,3 +170,6 @@ body {
   padding: 1px;
 }
 
+div .welcome {
+  margin-top:14%;
+}
