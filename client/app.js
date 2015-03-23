@@ -12,16 +12,11 @@ angular.module('gitInsight', [
       templateUrl: 'app/scripts/home/home.html',
       controller: 'HomeController'
     })
-    //sandbox for ko
-    .when('/ko', {
-      templateUrl: 'app/scripts/home/ko.html',
-      controller: 'HomeController'
-    })
     .when('/compare', {
       templateUrl: 'app/scripts/compare/compare.html',
       controller: 'CompareController'
     })
     .otherwise({
       redirectTo: '/'
-    })
+    });
 });
