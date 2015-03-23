@@ -9,18 +9,16 @@
     .primaryPalette('light-blue')
   });
 
-  HomeController.$inject = ['$scope', '$window', '$location', 'GitApi', 'Auth'];
+  HomeController.$inject = ['$scope', 'GitApi', 'Auth'];
 
-  function HomeController($scope, $window, $location, GitApi, Auth){
+  function HomeController($scope, GitApi, Auth){
     $scope.currentUser = {};
     $scope.users = [];
     $scope.loaded = false;
     $scope.loaded3 = false;
-    $scope.labels = [];
-    $scope.series = [];
+
     $scope.graphData = [];
     $scope.timeStamps = [];
-    $scope.userOneData = [];
 
     $scope.getUserRepos = function(){
       GitApi.getUserRepos($scope.currentUser.username)
@@ -47,8 +45,9 @@
         });
     };
 
+    var usersData = [];
     //TODO: refactor into service
-    var addGraphData = function(data){
+    var addGraphData = function(data, username) {
 
       var secondsPerYear = 525600 * 60;
       var dateNow = new Date() / 1000; //convert to unix
@@ -62,19 +61,19 @@
         unixTimeStamps.push(+week);
         netAdditions.push(data[week].a - data[week].d);
       }
-      var series1 = {"key": $scope.currentUser.username + "'s Net Additions", "values": []};
+      var userData = {"key": $scope.currentUser.username + "'s Net Additions", "values": []};
 
       for(var i = 0; i < unixTimeStamps.length; i++){
         if (unixTimeStamps[i] > dateXYearsAgo) {
-          series1.values.push([unixTimeStamps[i], netAdditions[i]]);
+          userData.values.push([unixTimeStamps[i], netAdditions[i]]);
         }
       }
 
-      if($scope.userOneData.length >= 2){
-        $scope.userOneData = [];
+      if(usersData.length >= 2){
+        usersData = [];
       }
 
-      $scope.userOneData.push(series1);
+      usersData.push(userData);
 
       // nv is a nvd3 library object. (on global scope)
       nv.addGraph(function() {
@@ -99,7 +98,7 @@
 
         // append defined chart to svg element
         d3.select('#chart svg')
-        .datum($scope.userOneData)
+        .datum(usersData)
         .call(chart);
 
         // resizes graph when window resizes
