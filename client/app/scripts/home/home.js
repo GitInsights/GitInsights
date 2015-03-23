@@ -54,8 +54,8 @@
       $scope.graphData.push(deletions);
       $scope.series.push($scope.currentUser.username + "'s Additions");
       $scope.series.push($scope.currentUser.username + "'s Deletions");
-      var j, i, debug;
-      i = j = debug = 0;
+      var j, i;
+      i = j = 0;
       while(i < tempTimeStamps.length && j < $scope.timeStamps.length){
         if(tempTimeStamps[i]===$scope.timeStamps[j]){
           newTimeStamps.push(tempTimeStamps[i++]);
