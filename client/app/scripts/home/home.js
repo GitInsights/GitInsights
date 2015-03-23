@@ -15,6 +15,7 @@
     $scope.currentUser = {};
     $scope.users = [];
     $scope.loaded = false;
+    $scope.loaded3 = false;
     $scope.labels = [];
     $scope.series = [];
     $scope.graphData = [];
@@ -112,9 +113,11 @@
       // Limits max user comparison = 2
       count++
       if(count > 2){
+        $scope.loaded3 = false;
         count = 1;
+      } else if (count === 2){
+        $scope.loaded3 = true;
       }
-
       //Changes format from {JavaScript: 676977.4910200321, CSS: 3554.990878681176, HTML: 41.838509316770185, Shell: 4024.4960858041054}
       // to [{"key": "One", "value": 222}, ... , {"key": "Last", "value": 222}]
       var languageData = d3.entries(languages)
