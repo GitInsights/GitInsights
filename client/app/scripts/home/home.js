@@ -21,7 +21,8 @@
     $scope.graphData = [];
     $scope.timeStamps = [];
     $scope.userOneData = [];
-
+    $scope.githubName = false;
+    $scope.test = 'l';
     $scope.getUserRepos = function(){
       GitApi.getUserRepos($scope.currentUser.username)
         .then(function(data){
@@ -145,7 +146,11 @@
     };
 
     $scope.login = function(){
-      Auth.login();
+      Auth.login(function(err, authData){
+        $scope.$apply(function(){
+          $scope.githubName = authData.github.displayName;
+        });
+      });
     };
 
   }

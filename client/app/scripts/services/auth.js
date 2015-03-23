@@ -24,7 +24,7 @@ function Auth () {
     return githubToken;
   }
 
-  function login () {
+  function login (callback) {
     //creates a popup for authentication via github
     //closes pop after and sets the githubToken for use in GitApi calls
     ref.authWithOAuthPopup("github", function (error, authData) {
@@ -33,6 +33,7 @@ function Auth () {
       } else {
         console.log("Authenticated successfully with payload:", authData);
         githubToken = authData.github.accessToken;
+        callback(error, authData);
       }
     });
   }
