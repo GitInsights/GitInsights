@@ -27,7 +27,7 @@ function GitApi ($q, $http, Auth) {
   function reduceAllWeeklyData (array, username) {
     var reduced = {};
     array.forEach(function (result) {
-      if(result!==undefined && result.author.login.toLowerCase() === username.toLowerCase()){
+      if(result !== undefined){
         result.weeks.forEach(function (data) {
             var week = data.w;
             for (var key in data) {
