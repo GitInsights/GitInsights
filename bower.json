@@ -2,11 +2,15 @@
   "name": "GitInsights",
   "main": "index.js",
   "version": "0.0.0",
-  "homepage": "https://github.com/waieez/GitInsights",
+  "homepage": "https://github.com/Whiskey-and-Cake/GitInsights.git",
   "authors": [
     "John Zhang",
     "Seunghoon Ko",
-    "Eli Xian"
+    "Eli Xian",
+    "Kate Jefferson",
+    "John Games",
+    "David Blanchard",
+    "Sean Kim"
   ],
   "description": "Github User Insights",
   "license": "MIT",
