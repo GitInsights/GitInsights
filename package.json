@@ -31,13 +31,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/GitInsights/GitInsights"
+    "url": "https://github.com/Whiskey-and-Cake/GitInsights.git"
   },
   "keywords": [
     "Github",
     "Insights"
   ],
-  "author": "John Zhang, Seunghoon Ko, Eli Xian",
+  "author": "John Zhang, Seunghoon Ko, Eli Xian, Kate Jefferson, John Games, David Blanchard, Sean Kim",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/GitInsights/GitInsights/issues"
