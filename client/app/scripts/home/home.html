@@ -5,9 +5,10 @@
           <h3 class="masthead-brand">Git Insight</h3>
           <nav>
             <ul class="nav masthead-nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#/compare">Compare</a></li>
-              <li><a ng-click="login()" href="">Login with Git</a></li>
+              <!-- <li class="active"><a href="#">Home</a></li> -->
+              <!-- <li><a href="#/compare">Compare</a></li> --> 
+              <li><a ng-click="login()" ng-if="!github.username" href="">Login with Git</a></li>
+              <li ng-if="github.username" scope.model="github"><h2>{{github.username}}</h2></li>
             </ul>
           </nav>
         </div>

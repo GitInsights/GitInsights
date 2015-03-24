@@ -12,14 +12,18 @@
   HomeController.$inject = ['$scope', 'GitApi', 'Auth', 'Chart'];
 
   function HomeController($scope, GitApi, Auth, Chart){
+    $scope.github = {};
     $scope.currentUser = {};
     $scope.loaded = false;
     $scope.loaded3 = true;
     $scope.numUsers = 0;
 
     $scope.login = function(){
-      Auth.login();
-    };
+      Auth.login()
+        .then(function (github) {
+          $scope.github = github;
+      });
+    }
 
     $scope.getAllWeeklyData = function(username){
       // first we make a set of queries to get data from all the repo's the user has contributed to.
