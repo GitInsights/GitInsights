@@ -5,9 +5,10 @@
           <h3 class="masthead-brand">Git Insight</h3>
           <nav>
             <ul class="nav masthead-nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#/compare">Compare</a></li>
-              <li><a ng-click="login()" href="">Login with Git</a></li>
+              <!-- <li class="active"><a href="#">Home</a></li> -->
+              <!-- <li><a href="#/compare">Compare</a></li> --> 
+              <li><a ng-click="login()" ng-if="!github.username" href="">Login with Git</a></li>
+              <li ng-if="github.username" scope.model="github"><h2>{{github.username}}</h2></li>
             </ul>
           </nav>
         </div>
@@ -22,9 +23,9 @@
               <md-content md-theme="docs-dark" class="md-padding" layout="row" layout-sm="column" style="font-size:1.2em">
                 <md-input-container required flex>
                   <label>Github Username</label>
-                  <input required ng-keypress="($event.which === 13)?getAllWeeklyData():0" name="username" ng-model="currentUser.username" placeholder="">
+                  <input required ng-keypress="($event.which === 13)?getAllWeeklyData(currentUser.username):0" name="username" ng-model="currentUser.username" placeholder="">
                 </md-input-container>
-                <md-button ng-click="getAllWeeklyData()">Search</md-button>
+                <md-button ng-click="getAllWeeklyData(currentUser.username)">Search</md-button>
               </md-content>
             </p>
           </div>
@@ -35,9 +36,9 @@
             <md-content md-theme="docs-dark" class="md-padding" layout="row" layout-sm="column" style="font-size:1.2em">
               <md-input-container required flex>
                 <label>Github Username</label>
-                <input required ng-enter="getAllWeeklyData()" ng-keypress="($event.which === 13)?getAllWeeklyData():0" name="username" ng-model="currentUser.username" placeholder="">
+                <input required ng-enter="getAllWeeklyData(currentUser.username)" ng-keypress="($event.which === 13)?getAllWeeklyData(currentUser.username):0" name="username" ng-model="currentUser.username" placeholder="">
               </md-input-container>
-              <md-button ng-click="getAllWeeklyData()">Compare Users</md-button>
+              <md-button ng-click="getAllWeeklyData(currentUser.username)">Compare Users</md-button>
             </md-content>
           </p>
       </div>
