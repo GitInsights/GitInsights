@@ -9,146 +9,55 @@
     .primaryPalette('light-blue')
   });
 
-  HomeController.$inject = ['$scope', '$window', '$location', 'GitApi', 'Auth'];
+  HomeController.$inject = ['$scope', 'GitApi', 'Auth', 'Chart'];
 
-  function HomeController($scope, $window, $location, GitApi, Auth){
+  function HomeController($scope, GitApi, Auth, Chart){
+    $scope.github = {};
     $scope.currentUser = {};
-    $scope.users = [];
     $scope.loaded = false;
-    $scope.loaded3 = false;
-    $scope.labels = [];
-    $scope.series = [];
-    $scope.graphData = [];
-    $scope.timeStamps = [];
-    $scope.userOneData = [];
+    $scope.loaded3 = true;
+    $scope.numUsers = 0;
 
-    $scope.getUserRepos = function(){
-      GitApi.getUserRepos($scope.currentUser.username)
-        .then(function(data){
-          $scope.loaded = true;
-        });
-    };
+    $scope.login = function(){
+      Auth.login()
+        .then(function (github) {
+          $scope.github = github;
+      });
+    }
 
-    $scope.getAllWeeklyData = function(){
-      GitApi.getAllWeeklyData($scope.currentUser.username)
-        .then(function(data){
-          addGraphData(GitApi.reduceAllWeeklyData(data, $scope.currentUser.username));
+    $scope.getAllWeeklyData = function(username){
+      // first we make a set of queries to get data from all the repo's the user has contributed to.
+      // the process also tags some metadata to help with chaining
+      GitApi.getAllWeeklyData(username)
+        .then(function (data){ 
+          // here we can immediately process the data to draw a line graph of the user's activity
+          var weeklyData = GitApi.reduceAllWeeklyData(data)
+          Chart.lineGraph(weeklyData, username);
           $scope.loaded = true;
-          $scope.users.push($scope.currentUser);
           $scope.currentUser = {};
           return data;
         })
         .then(function (data) {
           return GitApi.gatherLanguageData(data);
+          // this returns an array of tuples with the form 
+          // [user contirbutions to this repo, repo language stats, total repo activity] when it resolves
         })
         .then(function (data) {
+          // this time the data is processed to create a pie chart that estimates 
+          // the % of the each language the user codes in by taking the repo language stats * (user activity / total repo activity)
           var languages = GitApi.getUserLanguages(data);
-          addPieGraph(languages);
+          $scope.numUsers++;
+          $scope.loaded3 = !($scope.loaded3);
+
+          var config = {};
+          config.chart = "#chart2"
+          if($scope.numUsers % 2 === 0){
+            config.chart = "#chart3"
+          }
+
+          Chart.pieChart(languages, config);
         });
     };
-
-    //TODO: refactor into service
-    var addGraphData = function(data){
-
-      var secondsPerYear = 525600 * 60;
-      var dateNow = new Date() / 1000; //convert to unix
-      var dateXYearsAgo = dateNow - (secondsPerYear * 1);
-
-      var netAdditions = [];
-      var unixTimeStamps = [];
-      var newTimeStamps = [];
-
-      for(var week in data){
-        unixTimeStamps.push(+week);
-        netAdditions.push(data[week].a - data[week].d);
-      }
-      var series1 = {"key": $scope.currentUser.username + "'s Net Additions", "values": []};
-
-      for(var i = 0; i < unixTimeStamps.length; i++){
-        if (unixTimeStamps[i] > dateXYearsAgo) {
-          series1.values.push([unixTimeStamps[i], netAdditions[i]]);
-        }
-      }
-
-      if($scope.userOneData.length >= 2){
-        $scope.userOneData = [];
-      }
-
-      $scope.userOneData.push(series1);
-
-      // nv is a nvd3 library object. (on global scope)
-      nv.addGraph(function() {
-        // Creates multi-line graph
-        var chart = nv.models.lineChart()
-        .x(function(d) { return d[0] })
-        .y(function(d) { return d[1] })
-        .color(d3.scale.category10().range())
-        .useInteractiveGuideline(true);
-
-        // Define x axis
-        chart.xAxis
-        // .tickValues(unixTimeStamps)
-        .tickFormat(function(d) {
-          return d3.time.format('%x')(new Date(d*1000))
-        });
-
-        // Define y axis
-        chart.yAxis
-        .domain(d3.range(netAdditions))
-        .tickFormat(d3.format('d'));
-
-        // append defined chart to svg element
-        d3.select('#chart svg')
-        .datum($scope.userOneData)
-        .call(chart);
-
-        // resizes graph when window resizes
-        nv.utils.windowResize(chart.update);
-        return chart;
-      });
-    };
-
-    var count = 0
-    var addPieGraph = function (languages){
-      // Limits max user comparison = 2
-      count++
-      if(count > 2){
-        $scope.loaded3 = false;
-        count = 1;
-      } else if (count === 2){
-        $scope.loaded3 = true;
-      }
-      //Changes format from {JavaScript: 676977.4910200321, CSS: 3554.990878681176, HTML: 41.838509316770185, Shell: 4024.4960858041054}
-      // to [{"key": "One", "value": 222}, ... , {"key": "Last", "value": 222}]
-      var languageData = d3.entries(languages)
-
-      // Add second pie chart when comparing users.
-      var chart = "#chart2"
-      if(count === 2){
-        chart = "#chart3"
-      }
-
-      // nvd3 library's pie chart.
-      nv.addGraph(function() {
-        var pieChart = nv.models.pieChart()
-            .x(function(d) { return d.key })
-            .y(function(d) { return d.value })
-            .showLabels(true)
-            .labelType("percent");
-
-          d3.select(chart + " svg")
-              .datum(languageData)
-              .transition().duration(350)
-              .call(pieChart);
-
-        return pieChart;
-      });
-    };
-
-    $scope.login = function(){
-      Auth.login();
-    };
-
   }
 })();
 
